@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>劉韶軒 - 個人網站</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 基本重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 變量定義 */
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary-color: #6366f1;
+            --text-color: #1f2937;
+            --bg-color: #ffffff;
+            --accent-color: #f3f4f6;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+        }
+
+        /* 全局樣式 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--gray-50);
+        }
+
+        /* 導航欄 */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-500);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 主要內容區 */
+        main {
+            padding-top: 4rem;
+        }
+
+        section {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 英雄區域 */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            display: flex;
+            align-items: center;
+            gap: 6rem;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(-20px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(-20px);
+            }
+            50% {
+                transform: translateY(0);
+            }
+        }
+
+        .profile-image {
+            width: 320px;
+            height: 320px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            object-fit: cover;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1),
+            0 6px 6px rgba(0, 0, 0, 0.1);
+            animation: morph 8s ease-in-out infinite;
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+            25% {
+                border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%;
+            }
+            50% {
+                border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%;
+            }
+            75% {
+                border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%;
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .subtitle {
+            font-size: 1.75rem;
+            color: var(--gray-500);
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.2s;
+        }
+
+        .description {
+            font-size: 1.25rem;
+            color: var(--gray-400);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.4s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 按鈕樣式 */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards 0.6s;
+        }
+
+        .primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 6px rgba(59, 130, 246, 0.25);
+        }
+
+        .primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(59, 130, 246, 0.35);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column-reverse;
+                gap: 3rem;
+                padding: 2rem;
+            }
+
+            .hero-text {
+                text-align: center;
+            }
+
+            .profile-image {
+                width: 250px;
+                height: 250px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.25rem;
+            }
+
+            .description {
+                font-size: 1.1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* 專案卡片樣式 */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            color: var(--primary-color);
+        }
+
+        .project-title {
+            flex: 1;
+        }
+
+        .project-title h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-period {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tech-tag {
+            background: var(--gray-100);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .project-description {
+            color: var(--gray-500);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-features {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .project-features li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--gray-500);
+        }
+
+        .project-features li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0.5rem;
+        }
+
+        .project-links {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--secondary-color);
+        }
+
+        /* 遊戲相關專案特殊樣式 */
+        .game-project {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .game-project .project-icon {
+            color: #6366f1;
+        }
+
+        /* AI相關專案特殊樣式 */
+        .ai-project {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+        }
+
+        .ai-project .project-icon {
+            color: #8b5cf6;
+        }
+
+        /* 研究相關專案特殊樣式 */
+        .research-project {
+            background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        }
+
+        .research-project .project-icon {
+            color: #10b981;
+        }
+
+        /* 專案圖片樣式 */
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 工作經驗時間軸 */
+        .experience {
+            position: relative;
+            padding: 6rem 2rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, 
+                var(--primary-color) 0%,
+                var(--secondary-color) 50%,
+                var(--primary-color) 100%);
+            transform: translateX(-50%);
+        }
+
+        .experience-item {
+            position: relative;
+            width: calc(50% - 30px);
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .experience-item:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+        }
+
+        .experience-item:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+            margin-top: -2rem;
+        }
+
+        .experience-content {
+            position: relative;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .experience-content::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            top: 50%;
+        }
+
+        .experience-item:nth-child(odd) .experience-content::before {
+            right: -40px;
+            transform: translateY(-50%);
+        }
+
+        .experience-item:nth-child(even) .experience-content::before {
+            left: -40px;
+            transform: translateY(-50%);
+        }
+
+        .experience-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .company {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .company-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+
+        .company-icon i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .company-info h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .position {
+            color: var(--gray-500);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .period {
+            display: inline-block;
+            background: var(--gray-100);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .responsibilities {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .responsibilities li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        .responsibilities li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0.5rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+
+            .experience-item {
+                width: 100%;
+                padding-left: 70px !important;
+                padding-right: 0 !important;
+            }
+
+            .experience-item:nth-child(odd),
+            .experience-item:nth-child(even) {
+                left: 0;
+                margin-top: 0;
+            }
+
+            .experience-content::before {
+                left: -40px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">劉韶軒</a>
+            <ul class="nav-links">
+                <li><a href="#about">關於我</a></li>
+                <li><a href="#education">學歷</a></li>
+                <li><a href="#experience">經驗</a></li>
+                <li><a href="#projects">專案</a></li>
+                <li><a href="#skills">技能</a></li>
+                <li><a href="#contact">聯絡方式</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>劉韶軒</h1>
+                <p class="subtitle">資訊工程師 | 台北科技大學</p>
+                <p class="description">熱愛程式開發、樂於分享知識的好奇寶寶</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn primary">聯絡我</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/profile.jpg" alt="劉韶軒的個人照片" class="profile-image">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <h2>關於我</h2>
+        <div class="about-content">
+            <p>
+                我是一個相對外向開朗的人，特別喜歡與人互相討論問題或分享我研究過的技術。我深信透過共同學習和成長，能夠激發更多創新想法和解決方案。</p>
+        </div>
+    </section>
+
+    <section id="education" class="education">
+        <h2>學歷背景</h2>
+        <div class="education-content">
+            <div class="education-item">
+                <h3>國立台北科技大學</h3>
+                <p class="department">資訊工程系（日間部）</p>
+                <p class="period">2021/9 ~ 2025/6（預計畢業）</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="experience">
+        <h2>工作經驗</h2>
+        <div class="timeline">
+            <div class="experience-item">
+                <div class="experience-content">
+                    <div class="company">
+                        <div class="company-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>精誠資訊</h3>
+                            <p class="position">實習生</p>
+                        </div>
+                    </div>
+                    <span class="period">2025/1 ~ 2025/6</span>
+                    <ul class="responsibilities">
+                        <li>標準化自動play腳本，簡化測試流程並提高維護性</li>
+                        <li>建立程式碼RAG搜尋機制，提升PR審核完備性</li>
+                        <li>建立server實現網頁dependency追蹤和弱點掃描</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-content">
+                    <div class="company">
+                        <div class="company-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>愛普雲科技</h3>
+                            <p class="position">研發實習工程師</p>
+                        </div>
+                    </div>
+                    <span class="period">2021/11 ~ 2024/12</span>
+                    <ul class="responsibilities">
+                        <li>開發與維護系統功能</li>
+                        <li>參與系統架構設計與優化</li>
+                        <li>協助技術文檔撰寫與維護</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-content">
+                    <div class="company">
+                        <div class="company-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="company-info">
+                            <h3>艾鍗科技</h3>
+                            <p class="position">補習班教師</p>
+                        </div>
+                    </div>
+                    <span class="period">2021/3 至今</span>
+                    <ul class="responsibilities">
+                        <li>教授 Python 程式設計與基礎邏輯</li>
+                        <li>擔任 APCS 講師</li>
+                        <li>設計客製化教學內容與教材</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h2>專案經歷</h2>
+        <div class="projects-grid">
+            <!-- SrcurmPlaner 專案 -->
+            <div class="project-card ai-project">
+                <div class="project-header">
+                    <i class="fas fa-robot project-icon"></i>
+                    <div class="project-title">
+                        <h3>SrcurmPlaner</h3>
+                        <p class="project-period">2025/3 ~ 至今</p>
+                    </div>
+                </div>
+                <div class="project-tech">
+                    <span class="tech-tag">AI</span>
+                    <span class="tech-tag">RAG</span>
+                    <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">CI/CD</span>
+                </div>
+                <p class="project-description">整合AI服務的知識管理系統，實現智能檢索與自動化工作流程。</p>
+                <ul class="project-features">
+                    <li>線上筆記同步（Notion, HackMD, CouchDB）</li>
+                    <li>n8n自動化工作流程</li>
+                    <li>Anything LLM 整合</li>
+                    <li>GitHub Action CI/CD</li>
+                    <li>AWS EC2 自動部署</li>
+                </ul>
+            </div>
+
+            <!-- ChunithmDiscordBot 專案 -->
+            <div class="project-card game-project">
+                <div class="project-header">
+                    <i class="fas fa-gamepad project-icon"></i>
+                    <div class="project-title">
+                        <h3>ChunithmDiscordBot</h3>
+                        <p class="project-period">2024/8 ~ 2025/01</p>
+                    </div>
+                </div>
+                <img src="images/chunithm.jpg" alt="Chunithm Logo" class="project-image">
+                <div class="project-tech">
+                    <span class="tech-tag">Discord.js</span>
+                    <span class="tech-tag">Data Analysis</span>
+                    <span class="tech-tag">Visualization</span>
+                </div>
+                <p class="project-description">音樂遊戲數據分析與社群互動機器人系統。</p>
+                <ul class="project-features">
+                    <li>玩家評分分析</li>
+                    <li>弱點雷達圖生成</li>
+                    <li>歷史紀錄追蹤</li>
+                    <li>智能歌曲推薦</li>
+                </ul>
+            </div>
+
+            <!-- Metal Slug 專案 -->
+            <div class="project-card game-project">
+                <div class="project-header">
+                    <i class="fas fa-gamepad project-icon"></i>
+                    <div class="project-title">
+                        <h3>Metal Slug 遊戲開發</h3>
+                        <p class="project-period">2023/2 ~ 2024/6</p>
+                    </div>
+                </div>
+                <img src="images/metalslug.jpg" alt="Metal Slug Screenshot" class="project-image">
+                <div class="project-tech">
+                    <span class="tech-tag">C++</span>
+                    <span class="tech-tag">OOP</span>
+                    <span class="tech-tag">Game Dev</span>
+                </div>
+                <p class="project-description">使用LeistungsstarkesGameFramework開發的2D動作遊戲。</p>
+                <ul class="project-features">
+                    <li>物件導向設計</li>
+                    <li>動畫系統實現</li>
+                    <li>遊戲機制開發</li>
+                </ul>
+            </div>
+
+            <!-- 溫室氣體排放預測專案 -->
+            <div class="project-card research-project">
+                <div class="project-header">
+                    <i class="fas fa-chart-line project-icon"></i>
+                    <div class="project-title">
+                        <h3>溫室氣體排放預測</h3>
+                        <p class="project-period">2023/2 ~ 2023/6</p>
+                    </div>
+                </div>
+                <div class="project-tech">
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">Data Analysis</span>
+                    <span class="tech-tag">Python</span>
+                </div>
+                <p class="project-description">結合多種機器學習模型進行能源使用與排放預測研究。</p>
+                <ul class="project-features">
+                    <li>Linear Regression</li>
+                    <li>Random Forest</li>
+                    <li>SVM</li>
+                    <li>MLP模型分析</li>
+                </ul>
+            </div>
+
+            <!-- 行事曆APP專案 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <i class="fas fa-calendar-alt project-icon"></i>
+                    <div class="project-title">
+                        <h3>行事曆APP與時間分析系統</h3>
+                        <p class="project-period">2020/4 ~ 2020/12</p>
+                    </div>
+                </div>
+                <div class="project-tech">
+                    <span class="tech-tag">Android</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Power BI</span>
+                </div>
+                <p class="project-description">整合時間管理與數據分析的Android應用程式。</p>
+                <ul class="project-features">
+                    <li>Android Studio開發</li>
+                    <li>Firebase後端整合</li>
+                    <li>Power BI視覺化分析</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="skills">
+        <h2>技能總覽</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>程式語言</h3>
+                <ul>
+                    <li>C++ (6年經驗，競程導向)</li>
+                    <li>Python (5年經驗，資料分析)</li>
+                    <li>Java (4年經驗，App開發)</li>
+                    <li>Flutter (1年經驗)</li>
+                    <li>C (3年經驗，嵌入式)</li>
+                    <li>C#、Arduino</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>工具與技術</h3>
+                <ul>
+                    <li>Git</li>
+                    <li>CI/CD</li>
+                    <li>mBlock</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>證照</h3>
+                <ul>
+                    <li>乙級數位電子技術士</li>
+                    <li>丙級工業電子技術士</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section id="contact" class="contact">
+        <h2>聯絡方式</h2>
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fab fa-github"></i>
+                    <a href="https://github.com/Chinococo" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 劉韶軒. All rights reserved.</p>
+</footer>
+
+<script>
+    // 滾動時改變導航欄樣式
+    window.addEventListener('scroll', () => {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+</script>
+</body>
+</html> 
