@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>劉韶軒 - 專案詳情</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 基本重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 變量定義 */
+        :root {
+            --primary-color: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary-color: #6366f1;
+            --text-color: #1f2937;
+            --bg-color: #ffffff;
+            --accent-color: #f3f4f6;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+        }
+
+        /* 全局樣式 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--gray-50);
+        }
+
+        /* 導航欄 */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* 主要內容區 */
+        main {
+            padding-top: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 2rem 2rem;
+        }
+
+        /* 專案詳情樣式 */
+        .project-details {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-header {
+            margin-bottom: 2rem;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--gray-500);
+        }
+
+        .project-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-description {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .gallery-item {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .project-features {
+            margin-bottom: 2rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .feature-icon {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .feature-content h4 {
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-content p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .tech-stack {
+            margin-bottom: 2rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .primary-link {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .secondary-link {
+            background: var(--gray-100);
+            color: var(--text-color);
+        }
+
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .project-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .project-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+
+            .project-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-container">
+            <a href="index.html" class="nav-logo">返回首頁</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- ScrumPlaner 專案 -->
+        <section class="project-details">
+            <div class="project-header">
+                <h1 class="project-title">ScrumPlaner</h1>
+                <div class="project-meta">
+                    <span><i class="far fa-calendar"></i>2025/3 ~ 至今</span>
+                    <span><i class="fas fa-code-branch"></i>主要開發者</span>
+                </div>
+            </div>
+
+            <div class="project-description">
+                <p>整合AI服務的知識管理系統，實現智能檢索與自動化工作流程。本專案旨在提供一個全方位的知識管理解決方案，結合多種先進技術，實現高效的資訊整理與檢索功能。</p>
+            </div>
+
+            <div class="project-gallery">
+                <div class="gallery-item">
+                    <img src="SideProject/ScrumPlaner/workflow.png" alt="ScrumPlaner 架構圖">
+                </div>
+                <div class="gallery-item">
+                    <img src="SideProject/ScrumPlaner/demo1.png" alt="功能展示">
+                </div>
+            </div>
+
+            <div class="project-features">
+                <h3>主要功能</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-sync-alt feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>筆記同步</h4>
+                            <p>支援 Notion、HackMD 和 CouchDB 的即時同步功能</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-robot feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>AI 整合</h4>
+                            <p>整合 Anything LLM，提供智能檢索與回答功能</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cogs feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>自動化工作流</h4>
+                            <p>使用 n8n 建立自定義的自動化工作流程</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-cloud feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>雲端部署</h4>
+                            <p>AWS EC2 自動部署與 GitHub Action CI/CD 整合</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3>使用技術</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">AI</span>
+                    <span class="tech-tag">RAG</span>
+                    <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">CI/CD</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Docker</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="https://github.com/Chinococo/ScrumPlaner/tree/main" class="project-link primary-link">
+                    <i class="fab fa-github"></i>查看原始碼
+                </a>
+            </div>
+        </section>
+
+        <!-- ChunithmDiscordBot 專案 -->
+        <section class="project-details">
+            <div class="project-header">
+                <h1 class="project-title">ChunithmDiscordBot</h1>
+                <div class="project-meta">
+                    <span><i class="far fa-calendar"></i>2024/8 ~ 2025/01</span>
+                    <span><i class="fas fa-code-branch"></i>獨立開發</span>
+                </div>
+            </div>
+
+            <div class="project-description">
+                <p>音樂遊戲數據分析與社群互動機器人系統，為玩家提供個人化的遊戲數據分析與進步建議。透過Discord平台，玩家可以方便地查詢自己的遊戲數據，並獲得客製化的建議。</p>
+            </div>
+
+            <div class="project-gallery">
+                <div class="gallery-item">
+                    <img src="SideProject/ChunithmDiscordBot/demo.png" alt="Discord Bot 介面">
+                </div>
+            </div>
+
+            <div class="project-features">
+                <h3>主要功能</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>玩家評分分析</h4>
+                            <p>詳細的遊戲表現數據分析與視覺化</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-radar feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>弱點雷達圖</h4>
+                            <p>生成個人化的技能雷達圖，識別需要改進的領域</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-history feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>歷史記錄追蹤</h4>
+                            <p>追蹤並分析玩家的進步歷程</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-robot feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>智能推薦</h4>
+                            <p>基於玩家能力提供個人化的歌曲推薦</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3>使用技術</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">Discord.js</span>
+                    <span class="tech-tag">Node.js</span>
+                    <span class="tech-tag">Data Analysis</span>
+                    <span class="tech-tag">Chart.js</span>
+                    <span class="tech-tag">MongoDB</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="https://github.com/Chinococo/ChunithmScoreUtilsWeb" class="project-link primary-link">
+                    <i class="fab fa-github"></i>查看原始碼
+                </a>
+            </div>
+        </section>
+
+        <!-- 前列腺癌研究專案 -->
+        <section class="project-details">
+            <div class="project-header">
+                <h1 class="project-title">Methylation of Prostate Cancer Predict</h1>
+                <div class="project-meta">
+                    <span><i class="far fa-calendar"></i>2023/9 ~ 2024/3</span>
+                    <span><i class="fas fa-microscope"></i>研究專案</span>
+                </div>
+            </div>
+
+            <div class="project-description">
+                <p>針對前列腺癌檢測的痛點，本研究結合 DNA 甲基化數據與機器學習技術，開發高效且低成本的早期預測方法。透過多組外部數據驗證，證實僅需少量基因即可實現高準確度預測，具備實際臨床應用潛力。</p>
+            </div>
+
+            <div class="project-gallery">
+                <div class="gallery-item">
+                    <img src="SideProject/Methylation_analysis_prostate_cancer/Workflow.png" alt="研究流程圖">
+                </div>
+                <div class="gallery-item">
+                    <img src="SideProject/Methylation_analysis_prostate_cancer/AUC.png" alt="ROC 曲線分析">
+                </div>
+                <div class="gallery-item">
+                    <img src="SideProject/Methylation_analysis_prostate_cancer/ClusterGene.png" alt="基因聚類分析">
+                </div>
+                <div class="gallery-item">
+                    <img src="SideProject/Methylation_analysis_prostate_cancer/DatasetPredictResult.png" alt="預測結果">
+                </div>
+            </div>
+
+            <div class="project-features">
+                <h3>研究重點</h3>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <i class="fas fa-dna feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>數據處理與分析</h4>
+                            <p>使用 ChAMP 套件進行甲基化數據前處理，包含背景修正、標準化等</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-robot feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>機器學習模型</h4>
+                            <p>整合 Random Forest 與 XGBoost，結合 SMOTE 處理數據不平衡</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>預測效能</h4>
+                            <p>使用 3 個基因即可達到 90% 以上的 F1 分數</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fas fa-microscope feature-icon"></i>
+                        <div class="feature-content">
+                            <h4>臨床應用潛力</h4>
+                            <p>提供低成本、高效率的早期檢測方案</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3>使用技術</h3>
+                <div class="tech-tags">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">R</span>
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">ChAMP</span>
+                    <span class="tech-tag">Scikit-learn</span>
+                    <span class="tech-tag">XGBoost</span>
+                    <span class="tech-tag">Bioinformatics</span>
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="https://github.com/ajimmyyy/Methylation_analysis_prostate_cancer" class="project-link primary-link">
+                    <i class="fab fa-github"></i>查看原始碼
+                </a>
+                <a href="prostate_cancer_research.html" class="project-link secondary-link">
+                    <i class="fas fa-book"></i>查看詳細內容
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 滾動效果
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html> 

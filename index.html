@@ -768,6 +768,12 @@
             font-size: 1.25rem;
         }
 
+        .skill-icon img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+        }
+
         .skill-info {
             flex: 1;
         }
@@ -988,7 +994,7 @@
                 <div class="project-header">
                     <i class="fas fa-robot project-icon"></i>
                     <div class="project-title">
-                        <h3>SrcurmPlaner</h3>
+                        <h3><a href="projects.html" style="text-decoration: none; color: inherit;">SrcurmPlaner</a></h3>
                         <p class="project-period">2025/3 ~ 至今</p>
                     </div>
                 </div>
@@ -1013,7 +1019,7 @@
                 <div class="project-header">
                     <i class="fas fa-gamepad project-icon"></i>
                     <div class="project-title">
-                        <h3>ChunithmDiscordBot</h3>
+                        <h3><a href="projects.html" style="text-decoration: none; color: inherit;">ChunithmDiscordBot</a></h3>
                         <p class="project-period">2024/8 ~ 2025/01</p>
                     </div>
                 </div>
@@ -1099,6 +1105,30 @@
                     <li>Power BI視覺化分析</li>
                 </ul>
             </div>
+
+            <!-- 前列腺癌研究專案 -->
+            <div class="project-card research-project">
+                <div class="project-header">
+                    <i class="fas fa-microscope project-icon"></i>
+                    <div class="project-title">
+                        <h3><a href="projects.html" style="text-decoration: none; color: inherit;">Methylation of Prostate Cancer Predict</a></h3>
+                        <p class="project-period">2023/9 ~ 2024/3</p>
+                    </div>
+                </div>
+                <div class="project-tech">
+                    <span class="tech-tag">Machine Learning</span>
+                    <span class="tech-tag">Bioinformatics</span>
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">R</span>
+                </div>
+                <p class="project-description">結合 DNA 甲基化數據與機器學習技術，開發前列腺癌早期預測方法。</p>
+                <ul class="project-features">
+                    <li>ChAMP 數據前處理</li>
+                    <li>機器學習模型整合</li>
+                    <li>多組外部數據驗證</li>
+                    <li>臨床應用潛力評估</li>
+                </ul>
+            </div>
         </div>
     </section>
 
@@ -1110,7 +1140,7 @@
                 <div class="skill-list">
                     <div class="skill-item">
                         <div class="skill-icon">
-                            <i class="fab fa-cpp"></i>
+                            <i class="fab fa-cuttlefish"></i>
                         </div>
                         <div class="skill-info">
                             <div class="skill-name">C++</div>
@@ -1140,6 +1170,16 @@
                     </div>
                     <div class="skill-item">
                         <div class="skill-icon">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">TypeScript</div>
+                            <div class="skill-detail">型別安全的JavaScript開發</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
                         <div class="skill-info">
@@ -1154,7 +1194,7 @@
                         </div>
                         <div class="skill-info">
                             <div class="skill-name">C</div>
-                            <div class="skill-detail">3年經驗，嵌入式</div>
+                            <div class="skill-detail">3年經驗，嵌入式系統</div>
                         </div>
                         <span class="skill-badge">Advanced</span>
                     </div>
@@ -1163,20 +1203,154 @@
                             <i class="fab fa-windows"></i>
                         </div>
                         <div class="skill-info">
-                            <div class="skill-name">C# & Arduino</div>
-                            <div class="skill-detail">開發經驗</div>
+                            <div class="skill-name">C#</div>
+                            <div class="skill-detail">3年經驗，Windows應用開發</div>
                         </div>
-                        <span class="skill-badge">Intermediate</span>
+                        <span class="skill-badge">Advanced</span>
                     </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">Arduino</div>
+                            <div class="skill-detail">嵌入式硬體控制開發</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-palette"></i>前端開發</h3>
+                <div class="skill-list">
                     <div class="skill-item">
                         <div class="skill-icon">
                             <i class="fab fa-angular"></i>
                         </div>
                         <div class="skill-info">
                             <div class="skill-name">Angular</div>
-                            <div class="skill-detail">1年經驗，前端開發</div>
+                            <div class="skill-detail">2年經驗，企業級應用開發</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fab fa-angular"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">AngularJS</div>
+                            <div class="skill-detail">舊系統維護與升級</div>
                         </div>
                         <span class="skill-badge">Intermediate</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">React</div>
+                            <div class="skill-detail">現代化UI開發</div>
+                        </div>
+                        <span class="skill-badge">Intermediate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-server"></i>後端開發</h3>
+                <div class="skill-list">
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fab fa-node-js"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">Node.js</div>
+                            <div class="skill-detail">RESTful API開發，Express框架</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-database"></i>資料庫</h3>
+                <div class="skill-list">
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">PostgreSQL</div>
+                            <div class="skill-detail">關聯式資料庫設計與優化</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">MySQL</div>
+                            <div class="skill-detail">資料庫管理與效能調校</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">SQLite</div>
+                            <div class="skill-detail">輕量級資料庫應用</div>
+                        </div>
+                        <span class="skill-badge">Intermediate</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">MongoDB</div>
+                            <div class="skill-detail">NoSQL資料庫開發</div>
+                        </div>
+                        <span class="skill-badge">Intermediate</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-cloud"></i>雲端服務</h3>
+                <div class="skill-list">
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fab fa-aws"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">AWS</div>
+                            <div class="skill-detail">EC2, S3, Route53, Lambda</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">Google Cloud Platform</div>
+                            <div class="skill-detail">Compute Engine, Cloud Storage</div>
+                        </div>
+                        <span class="skill-badge">Intermediate</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">Cloudflare</div>
+                            <div class="skill-detail">DNS管理, CDN配置</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
                     </div>
                 </div>
             </div>
@@ -1196,11 +1370,31 @@
                     </div>
                     <div class="skill-item">
                         <div class="skill-icon">
-                            <i class="fas fa-infinity"></i>
+                            <i class="fab fa-github"></i>
                         </div>
                         <div class="skill-info">
-                            <div class="skill-name">CI/CD</div>
-                            <div class="skill-detail">Jenkins, GitHub Actions</div>
+                            <div class="skill-name">GitHub Actions</div>
+                            <div class="skill-detail">CI/CD自動化流程建置</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">Docker</div>
+                            <div class="skill-detail">容器化應用部署</div>
+                        </div>
+                        <span class="skill-badge">Advanced</span>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-icon">
+                            <i class="fas fa-dharmachakra"></i>
+                        </div>
+                        <div class="skill-info">
+                            <div class="skill-name">Kubernetes</div>
+                            <div class="skill-detail">容器編排與集群管理</div>
                         </div>
                         <span class="skill-badge">Intermediate</span>
                     </div>
@@ -1223,16 +1417,6 @@
                             <div class="skill-detail">VSCode, WebStorm, Android Studio</div>
                         </div>
                         <span class="skill-badge">Advanced</span>
-                    </div>
-                    <div class="skill-item">
-                        <div class="skill-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="skill-info">
-                            <div class="skill-name">資料庫</div>
-                            <div class="skill-detail">MySQL, MongoDB</div>
-                        </div>
-                        <span class="skill-badge">Intermediate</span>
                     </div>
                 </div>
             </div>
@@ -1262,6 +1446,7 @@
             </div>
         </div>
     </section>
+
     <section id="contact" class="contact">
         <h2>聯絡方式</h2>
         <div class="contact-content">
