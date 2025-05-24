@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>學習筆記 - 我的個人網站</title>
+
+    <!-- 字型與圖示 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <!-- 第三方程式庫 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+    <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
+
+    <style>
+        /* ----------- 基本樣式 ----------- */
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --primary-color:#3b82f6;
+            --primary-dark:#2563eb;
+            --secondary-color:#6366f1;
+            --text-color:#1f2937;
+            --bg-color:#ffffff;
+            --accent-color:#f3f4f6;
+        }
+        body{
+            font-family:'Noto Sans TC',sans-serif;
+            line-height:1.6;
+            color:var(--text-color);
+            background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%);
+            min-height:100vh;
+        }
+
+        /* ----------- 版面 ----------- */
+        .container{max-width:1200px;margin:0 auto;padding:2rem}
+        .header{text-align:center;padding:2rem 0;margin-bottom:2rem}
+        .header h1{font-size:2.5rem;color:var(--primary-color);margin-bottom:1rem}
+
+        .notes-container{
+            display:grid;
+            grid-template-columns:300px 1fr;
+            gap:2rem;
+            background:var(--bg-color);
+            border-radius:15px;
+            box-shadow:0 4px 6px rgba(0,0,0,.1);
+            overflow:hidden;
+        }
+
+        /* ----------- 左側清單 ----------- */
+        .notes-sidebar{background:var(--accent-color);padding:1.5rem;height:calc(100vh - 200px);overflow-y:auto}
+        .folder{margin-bottom:.5rem}
+        .folder-header{display:flex;align-items:center;padding:.5rem;cursor:pointer;border-radius:4px;transition:background-color .3s}
+        .folder-header:hover{background-color:rgba(59,130,246,.1)}
+        .folder-icon{margin-right:.5rem;color:var(--primary-color);transition:transform .3s}
+        .folder.open>.folder-header .folder-icon{transform:rotate(90deg)}
+        .folder-content{margin-left:1.5rem;display:none}
+        .folder.open>.folder-content{display:block}
+        .note-link{display:block;padding:.5rem 1rem;color:var(--text-color);text-decoration:none;border-radius:4px;transition:background-color .3s}
+        .note-link:hover{background-color:var(--primary-color);color:#fff}
+
+        /* ----------- 右側內容 ----------- */
+        .note-content{padding:2rem;height:calc(100vh - 200px);overflow-y:auto}
+        .note-content h1{font-size:2.5rem;color:var(--primary-color);margin-bottom:1.5rem;border-bottom:2px solid var(--primary-color);padding-bottom:.5rem}
+        .note-content h2{font-size:2rem;color:var(--primary-dark);margin:2rem 0 1rem}
+        .note-content h3{font-size:1.5rem;color:var(--secondary-color);margin:1.5rem 0 1rem}
+        .note-content p{margin-bottom:1rem;line-height:1.8}
+        .note-content pre{background:var(--accent-color);padding:1rem;border-radius:8px;overflow-x:auto;margin:1rem 0;border:1px solid #e5e7eb}
+        .note-content code{font-family:'Fira Code',monospace;background:var(--accent-color);padding:.2rem .4rem;border-radius:4px;font-size:.9em}
+        .note-content blockquote{border-left:4px solid var(--primary-color);padding-left:1rem;margin:1rem 0;color:#4b5563}
+        .note-content ul,.note-content ol{margin:1rem 0;padding-left:2rem}
+        .note-content li{margin-bottom:.5rem}
+        .note-content table{width:100%;border-collapse:collapse;margin:1rem 0}
+        .note-content th,.note-content td{border:1px solid #e5e7eb;padding:.75rem;text-align:left}
+        .note-content th{background-color:var(--accent-color);font-weight:600}
+        .note-content img{max-width:100%;height:auto;border-radius:8px;margin:1rem 0}
+        .note-content a{color:var(--primary-color);text-decoration:none}
+        .note-content a:hover{text-decoration:underline}
+
+        /* 行動裝置 */
+        @media(max-width:768px){
+            .notes-container{grid-template-columns:1fr}
+            .notes-sidebar{height:auto;max-height:300px}
+            .note-content{height:auto}
+        }
+        /* Mermaid */
+        .mermaid{margin:1rem 0;text-align:center}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>學習筆記</h1>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> 返回首頁</a>
+    </div>
+
+    <div class="notes-container">
+        <!-- 左側清單 -->
+        <div class="notes-sidebar">
+            <ul id="notesList"></ul>
+        </div>
+        <!-- 右側內容 -->
+        <div class="note-content" id="noteContent">
+            <h1>選擇一個筆記開始閱讀</h1>
+            <p>從左側列表中選擇要閱讀的筆記。</p>
+        </div>
+    </div>
+</div>
+
+<!-- ---------- JavaScript ---------- -->
+<script>
+    // 1️⃣ Mermaid 全域初始化
+    mermaid.initialize({startOnLoad:false,theme:'default',securityLevel:'loose'});
+
+    /* 2️⃣ 工具：將 flat path 陣列 -> tree 結構 */
+    function buildTree(paths){
+        const root={};
+        paths.filter(p=>p.endsWith('.md')).map(p=>p.replace('src/site/notes/','')).forEach(rel=>{
+            const parts=rel.split('/');
+            let cur=root;
+            parts.forEach((part,idx)=>{
+                if(idx===parts.length-1){
+                    cur[part]={file:`src/site/notes/${rel}`};
+                }else{
+                    cur[part]=cur[part]||{children:{}};
+                    cur=cur[part].children;
+                }
+            });
+        });
+        return root;
+    }
+
+    /* 3️⃣ 將 tree 渲染到 Sidebar */
+    function renderTree(node,parent){
+        const entries=Object.entries(node).sort(([a],[b])=>{
+            const isFolderA=!node[a].file,isFolderB=!node[b].file;
+            if(isFolderA!==isFolderB)return isFolderB-isFolderA;
+            return a.localeCompare(b,'zh-Hant');
+        });
+
+        for(const [name,data] of entries){
+            if(data.file){
+                const li=document.createElement('li');
+                const link=document.createElement('a');
+                link.className='note-link';
+                link.textContent=name.replace(/\.md$/,'');
+                link.href='#';
+                link.onclick=e=>{e.preventDefault();loadNote(data.file)};
+                li.appendChild(link);
+                parent.appendChild(li);
+            }else{
+                const folder=document.createElement('div');
+                folder.className='folder';
+                const header=document.createElement('div');
+                header.className='folder-header';
+                header.innerHTML=`<i class="fas fa-chevron-right folder-icon"></i><i class="fas fa-folder"></i><span style="margin-left:.5rem">${name}</span>`;
+                const content=document.createElement('div');
+                content.className='folder-content';
+                header.addEventListener('click',()=>folder.classList.toggle('open'));
+                folder.appendChild(header);
+                folder.appendChild(content);
+                parent.appendChild(folder);
+                renderTree(data.children,content);
+            }
+        }
+    }
+
+    /* 4️⃣ 抓筆記清單 */
+    async function fetchNotes(){
+        const list=document.getElementById('notesList');
+        try{
+            const res=await fetch('https://api.chinococo.tw/notes');
+            const json=await res.json();
+            const tree=buildTree(json.downloaded_files||[]);
+            list.innerHTML='';
+            renderTree(tree,list);
+        }catch(err){
+            console.error(err);
+            list.innerHTML='<li>無法加載筆記列表</li>';
+        }
+    }
+
+    /* 5️⃣ 抓單篇筆記內容 */
+    async function loadNote(path){
+        const contentEl=document.getElementById('noteContent');
+        contentEl.innerHTML='<p>筆記載入中...</p>';
+        try{
+            const res=await fetch('https://api.chinococo.tw/note-content',{
+                method:'POST',
+                headers:{'Content-Type':'application/json'},
+                body:JSON.stringify({src_path:`https://raw.githubusercontent.com/Chinococo/digitalgarden/main/${path}`})
+            });
+            let md=await res.json();
+            // 拿掉 Obsidian front‑matter
+            md=md.replace(/^---[\s\S]*?---/,'').trim();
+            renderMarkdown(contentEl,md);
+        }catch(err){
+            console.error(err);
+            contentEl.innerHTML='<p>無法加載筆記內容</p>';
+        }
+    }
+
+    /* 6️⃣ markdown -> html + KaTeX + Mermaid */
+    function renderMarkdown(targetEl,rawMd){
+        const html=marked.parse(rawMd,{gfm:true,breaks:true,headerIds:true,mangle:false});
+        targetEl.innerHTML=html;
+
+        // ⚠️ KaTeX：利用 auto-render 針對 targetEl 即時轉譯，避免 "<span class=...>" 被當作純文字
+        if(typeof renderMathInElement==='function'){
+            renderMathInElement(targetEl,{
+                delimiters:[
+                    {left:'$$',right:'$$',display:true},
+                    {left:'$', right:'$', display:false}
+                ],
+                throwOnError:false
+            });
+        }
+
+        // Mermaid
+        const mermaidBlocks=targetEl.querySelectorAll('code.language-mermaid,pre>code.language-mermaid');
+        mermaidBlocks.forEach(block=>{
+            const div=document.createElement('div');
+            div.className='mermaid';
+            div.textContent=block.textContent;
+            block.parentElement.replaceWith(div);
+        });
+        mermaid.init(undefined,targetEl.querySelectorAll('.mermaid'));
+    }
+
+    /* 7️⃣ 初始化 */
+    window.addEventListener('DOMContentLoaded',fetchNotes);
+</script>
+</body>
+</html>
