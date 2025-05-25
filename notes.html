@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>學習筆記 - 我的個人網站</title>
+    <title>學習筆記 - 我的個人網站 (KaTeX 修正版)</title>
 
     <!-- 字型與圖示 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-    <!-- 第三方程式庫 -->
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
-    <link   rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
+    <!-- KaTeX & Texmath -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css" />
+
+    <!-- Mermaid -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.css" />
 
     <style>
         /* ----------- 基本樣式 ----------- */
@@ -112,11 +111,28 @@
 </div>
 
 <!-- ---------- JavaScript ---------- -->
+<!-- 第三方程式庫 -->
+<script src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/markdown-it-texmath/texmath.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
+
 <script>
     // 1️⃣ Mermaid 全域初始化
     mermaid.initialize({startOnLoad:false,theme:'default',securityLevel:'loose'});
 
-    /* 2️⃣ 工具：將 flat path 陣列 -> tree 結構 */
+    // 2️⃣ Markdown-it + TexMath 初始化
+    const md = window.markdownit({
+        html:true,
+        breaks:true,
+        linkify:true,
+        typographer:false
+    }).use(texmath, {
+        engine:katex,
+        delimiters:'dollars'
+    });
+
+    /* 3️⃣ 工具：將 flat path 陣列 -> tree 結構 */
     function buildTree(paths){
         const root={};
         paths.filter(p=>p.endsWith('.md')).map(p=>p.replace('src/site/notes/','')).forEach(rel=>{
@@ -134,7 +150,7 @@
         return root;
     }
 
-    /* 3️⃣ 將 tree 渲染到 Sidebar */
+    /* 4️⃣ 將 tree 渲染到 Sidebar */
     function renderTree(node,parent){
         const entries=Object.entries(node).sort(([a],[b])=>{
             const isFolderA=!node[a].file,isFolderB=!node[b].file;
@@ -169,7 +185,7 @@
         }
     }
 
-    /* 4️⃣ 抓筆記清單 */
+    /* 5️⃣ 抓筆記清單 */
     async function fetchNotes(){
         const list=document.getElementById('notesList');
         try{
@@ -184,7 +200,7 @@
         }
     }
 
-    /* 5️⃣ 抓單篇筆記內容 */
+    /* 6️⃣ 抓單篇筆記內容 */
     async function loadNote(path){
         const contentEl=document.getElementById('noteContent');
         contentEl.innerHTML='<p>筆記載入中...</p>';
@@ -194,31 +210,20 @@
                 headers:{'Content-Type':'application/json'},
                 body:JSON.stringify({src_path:`https://raw.githubusercontent.com/Chinococo/digitalgarden/main/${path}`})
             });
-            let md=await res.json();
+            let mdText=await res.json();
             // 拿掉 Obsidian front‑matter
-            md=md.replace(/^---[\s\S]*?---/,'').trim();
-            renderMarkdown(contentEl,md);
+            mdText=mdText.replace(/^---[\s\S]*?---/,'').trim();
+            renderMarkdown(contentEl,mdText);
         }catch(err){
             console.error(err);
             contentEl.innerHTML='<p>無法加載筆記內容</p>';
         }
     }
 
-    /* 6️⃣ markdown -> html + KaTeX + Mermaid */
+    /* 7️⃣ markdown -> html + KaTeX + Mermaid */
     function renderMarkdown(targetEl,rawMd){
-        const html=marked.parse(rawMd,{gfm:true,breaks:true,headerIds:true,mangle:false});
+        const html=md.render(rawMd);
         targetEl.innerHTML=html;
-
-        // ⚠️ KaTeX：利用 auto-render 針對 targetEl 即時轉譯，避免 "<span class=...>" 被當作純文字
-        if(typeof renderMathInElement==='function'){
-            renderMathInElement(targetEl,{
-                delimiters:[
-                    {left:'$$',right:'$$',display:true},
-                    {left:'$', right:'$', display:false}
-                ],
-                throwOnError:false
-            });
-        }
 
         // Mermaid
         const mermaidBlocks=targetEl.querySelectorAll('code.language-mermaid,pre>code.language-mermaid');
@@ -231,7 +236,7 @@
         mermaid.init(undefined,targetEl.querySelectorAll('.mermaid'));
     }
 
-    /* 7️⃣ 初始化 */
+    /* 8️⃣ 初始化 */
     window.addEventListener('DOMContentLoaded',fetchNotes);
 </script>
 </body>
