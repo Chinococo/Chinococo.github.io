@@ -9,12 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
-    <!-- KaTeX & Texmath -->
+    <!-- KaTeX & TexMath -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/markdown-it-texmath/css/texmath.min.css" />
 
     <!-- Mermaid -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.css" />
+
 
     <style>
         /* ----------- 基本樣式 ----------- */
@@ -36,13 +37,13 @@
         }
 
         /* ----------- 版面 ----------- */
-        .container{max-width:1200px;margin:0 auto;padding:2rem}
+        .container{width:95%;max-width:2200px;margin:0 auto;padding:2rem}
         .header{text-align:center;padding:2rem 0;margin-bottom:2rem}
         .header h1{font-size:2.5rem;color:var(--primary-color);margin-bottom:1rem}
 
         .notes-container{
             display:grid;
-            grid-template-columns:300px 1fr;
+            grid-template-columns:260px 1fr; /* 左邊縮小、右邊放大 */
             gap:2rem;
             background:var(--bg-color);
             border-radius:15px;
@@ -57,10 +58,12 @@
         .folder-header:hover{background-color:rgba(59,130,246,.1)}
         .folder-icon{margin-right:.5rem;color:var(--primary-color);transition:transform .3s}
         .folder.open>.folder-header .folder-icon{transform:rotate(90deg)}
-        .folder-content{margin-left:1.5rem;display:none}
+        .folder-content{margin-left:.75rem;display:none;border-left:1px solid rgba(59,130,246,.2)}
         .folder.open>.folder-content{display:block}
-        .note-link{display:block;padding:.5rem 1rem;color:var(--text-color);text-decoration:none;border-radius:4px;transition:background-color .3s}
+        .note-link{display:flex;align-items:center;padding:.5rem .75rem;color:var(--text-color);text-decoration:none;border-radius:4px;transition:background-color .3s}
+        .note-link i{margin-right:.5rem;color:var(--primary-color)}
         .note-link:hover{background-color:var(--primary-color);color:#fff}
+        .note-link:hover i{color:#fff}
 
         /* ----------- 右側內容 ----------- */
         .note-content{padding:2rem;height:calc(100vh - 200px);overflow-y:auto}
@@ -118,21 +121,32 @@
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11.6.0/dist/mermaid.min.js"></script>
 
 <script>
-    // 1️⃣ Mermaid 全域初始化
+    /* ================================================
+       1⃣  Mermaid 全域初始化
+    =================================================*/
     mermaid.initialize({startOnLoad:false,theme:'default',securityLevel:'loose'});
 
-    // 2️⃣ Markdown-it + TexMath 初始化
+    /* ================================================
+       2⃣  Markdown-it + TexMath 初始化
+    =================================================*/
     const md = window.markdownit({
-        html:true,
-        breaks:true,
-        linkify:true,
-        typographer:false
+        html: true,
+        breaks: true,
+        linkify: true,
+        typographer: false
     }).use(texmath, {
-        engine:katex,
-        delimiters:'dollars'
+        engine: katex,
+        delimiters: 'dollars',
+        katexOptions: {
+            throwOnError: false, // 避免中斷渲染
+            displayMode: true,
+            output: 'html'
+        }
     });
 
-    /* 3️⃣ 工具：將 flat path 陣列 -> tree 結構 */
+    /* ================================================
+       3⃣  工具：將 flat path 陣列 -> tree 結構
+    =================================================*/
     function buildTree(paths){
         const root={};
         paths.filter(p=>p.endsWith('.md')).map(p=>p.replace('src/site/notes/','')).forEach(rel=>{
@@ -150,7 +164,9 @@
         return root;
     }
 
-    /* 4️⃣ 將 tree 渲染到 Sidebar */
+    /* ================================================
+       4⃣  將 tree 渲染到 Sidebar
+    =================================================*/
     function renderTree(node,parent){
         const entries=Object.entries(node).sort(([a],[b])=>{
             const isFolderA=!node[a].file,isFolderB=!node[b].file;
@@ -163,7 +179,7 @@
                 const li=document.createElement('li');
                 const link=document.createElement('a');
                 link.className='note-link';
-                link.textContent=name.replace(/\.md$/,'');
+                link.innerHTML=`<i class=\"fas fa-file-alt\"></i><span>${name.replace(/\\.md$/,'')}</span>`;
                 link.href='#';
                 link.onclick=e=>{e.preventDefault();loadNote(data.file)};
                 li.appendChild(link);
@@ -173,7 +189,7 @@
                 folder.className='folder';
                 const header=document.createElement('div');
                 header.className='folder-header';
-                header.innerHTML=`<i class="fas fa-chevron-right folder-icon"></i><i class="fas fa-folder"></i><span style="margin-left:.5rem">${name}</span>`;
+                header.innerHTML=`<i class=\"fas fa-chevron-right folder-icon\"></i><i class=\"fas fa-folder\"></i><span style=\"margin-left:.5rem\">${name}</span>`;
                 const content=document.createElement('div');
                 content.className='folder-content';
                 header.addEventListener('click',()=>folder.classList.toggle('open'));
@@ -185,7 +201,10 @@
         }
     }
 
-    /* 5️⃣ 抓筆記清單 */
+
+    /* ================================================
+       5⃣  抓筆記清單
+    =================================================*/
     async function fetchNotes(){
         const list=document.getElementById('notesList');
         try{
@@ -200,7 +219,18 @@
         }
     }
 
-    /* 6️⃣ 抓單篇筆記內容 */
+    /* ================================================
+       6⃣  Latex 前處理：修正 KaTeX 不支援的環境
+           - flalign* → align*
+    =================================================*/
+    function preprocessLatex(raw){
+        return raw.replace(/\\begin\{flalign\*}/g,'\\begin{align*}')
+            .replace(/\\end\{flalign\*}/g,'\\end{align*}');
+    }
+
+    /* ================================================
+       7⃣  抓單篇筆記內容
+    =================================================*/
     async function loadNote(path){
         const contentEl=document.getElementById('noteContent');
         contentEl.innerHTML='<p>筆記載入中...</p>';
@@ -211,8 +241,10 @@
                 body:JSON.stringify({src_path:`https://raw.githubusercontent.com/Chinococo/digitalgarden/main/${path}`})
             });
             let mdText=await res.json();
-            // 拿掉 Obsidian front‑matter
+            // 移除 Obsidian front‑matter
             mdText=mdText.replace(/^---[\s\S]*?---/,'').trim();
+            // Latex 轉換
+            mdText=preprocessLatex(mdText);
             renderMarkdown(contentEl,mdText);
         }catch(err){
             console.error(err);
@@ -220,12 +252,14 @@
         }
     }
 
-    /* 7️⃣ markdown -> html + KaTeX + Mermaid */
+    /* ================================================
+       8⃣  markdown -> html + KaTeX + Mermaid
+    =================================================*/
     function renderMarkdown(targetEl,rawMd){
         const html=md.render(rawMd);
         targetEl.innerHTML=html;
 
-        // Mermaid
+        // Mermaid 轉換
         const mermaidBlocks=targetEl.querySelectorAll('code.language-mermaid,pre>code.language-mermaid');
         mermaidBlocks.forEach(block=>{
             const div=document.createElement('div');
@@ -236,7 +270,9 @@
         mermaid.init(undefined,targetEl.querySelectorAll('.mermaid'));
     }
 
-    /* 8️⃣ 初始化 */
+    /* ================================================
+       9⃣  初始化
+    =================================================*/
     window.addEventListener('DOMContentLoaded',fetchNotes);
 </script>
 </body>
